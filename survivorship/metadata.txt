@@ -1,0 +1,30 @@
+Two Folders to investigate:
+Unaligned
+Unassigned
+
+
+The first folder contains 62 Tickers that have unequal dimensions of OHLC data
+That is to day, there were instances where there were more close observations, than say, opens. Or any other combination. There is no general pattern.
+
+------------------------------------------------------------------------------------------------
+
+
+3 Tickers yielded NULL data:
+W UN Equity
+SXCLD UQ Equity
+CNXT UQ Equity
+
+
+We believe these should be mapped to:
+1051665D US Equity
+SXCL US Equity
+1040983D UQ Equity
+
+
+
+------------------------------------------------------------------------------------------------
+
+3 Tickers Have no OHL data available, just the close:
+292356Z US Equity
+601964Q US Equity
+SVFI US Equity
