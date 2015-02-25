@@ -6,7 +6,7 @@ This script downloads the company name and date of participation in an index.
 ######rBBG_splits.R
 This script downloads the date and ratio amount for a stock split.
 
-#######rBBG_prices.R
+######rBBG_prices.R
 This script will download the actual OHLC price data for each constituent, given the output from rBBG_survivors.R
 
 ![alt text] (https://github.com/geoquant/R/blob/master/survivorship/dpdf.PNG "{DPDF}")
