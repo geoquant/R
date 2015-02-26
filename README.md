@@ -1,2 +1,2 @@
 # R
-a collection of my R projects, mostly relating to finance
+a collection of R projects, mostly relating to finance
