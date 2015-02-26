@@ -56,46 +56,8 @@ monthly_adj  <- adj_close[endpoints(index(adj_close), on = "months"), ]
 monthly_rets <- diff(monthly_adj)/lag(monthly_adj, k = 1)
 
 
-# market timing -----------------------------------------------------------
-roc1DP <- ROC(raw_close[,1:length(universe)], n=1, type="discrete")*100
-
-## Highest Momentum (ROC), 
-## Lowest Volatility (SD), 
-## Lowest Avg. Correlation
-## 4-month look back
-## Weight 50% momentum, 25% volatility, 25% correlation
-momentum    <- xts(apply(roc1DP, 2, SMA, n = 84), index(adj_close))
-volatility  <- rollapply(roc1DP[, 1:length(universe)], 84, sd, fill = NA)
-correlation <- corIndicator(universe = universe, data = roc1DP, n = 84) 
-
-moment_rank <- ranking(momentum) 
-vol_rank    <- ranking(-volatility) 
-corr_rank   <- ranking(-correlation) 
-
-all_ranks <- (.50 * moment_rank) + (.25 * vol_rank) + (.25 * corr_rank)
-composite_rank <- ranking(all_ranks)
-colnames(composite_rank) <- universe
-
-composite_rank[composite_rank < 9]  <- 0
-composite_rank[composite_rank >= 9] <- 1
-
-## Filters
-moment_filter <- xts(ifelse(as.matrix(momentum) < 0, 0, 1), index(adj_close))
 
 
-# system 1: mvc + momentum filter -----------------------------------------
-strategy1 <- (as.matrix(composite_rank) * as.matrix(moment_filter)) #* .20
-strategy1 <- strategy1 * (1 / rowSums(strategy1))
-strategy1 <- xts(strategy1, index(adj_close))
-strategy1 <- strategy1[endpoints(index(strategy1), on = "months"), ]
-
-# strategy 2: risk parity -------------------------------------------------
-rp_buy <- as.matrix(composite_rank) * as.matrix(moment_filter)
-kt_buy <- 1/rowSums(rp_buy * volatility)
-kt_buy[kt_buy == Inf] <- 0
-rp_weights <- kt_buy * volatility
-strategy2  <- xts(rp_buy * rp_weights, index(adj_close))
-strategy2  <- strategy2[endpoints(index(strategy2), on = "months"), ]
 
 # Buy and Hold ------------------------------------------------------------
 bh_allocation <- 1/length(universe)
@@ -107,8 +69,8 @@ colnames(bh_weights) <- universe
 
 
 # output ------------------------------------------------------------------
-strat1_returns <- backtest_engine(strategy1, "MVC_filter", monthly_rets)
-strat2_returns <- backtest_engine(strategy2, "risk_parity", monthly_rets)
+strat1_returns <-
+strat2_returns <- 
 bh_returns     <- backtest_engine(bh_weights, "buy_hold", monthly_rets)
 
 port_returns_report <- cbind(strat1_returns$portfolio_returns, 
