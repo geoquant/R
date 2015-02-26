@@ -1,8 +1,7 @@
 rm(list = ls(all = TRUE))
 options(scipen=999)
 
-setwd("~/Dropbox/setup/quant_trading/mom_portfolio/mvc_20150109")
-#setwd("C:/Users/jlappen/Dropbox/setup/quant_trading/mom_portfolio/mvc_20150109")
+setwd()
 
 library(xts)
 library(plyr)
