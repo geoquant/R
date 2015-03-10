@@ -3,7 +3,5 @@ This is an example of reproducing CQG-like stock charts with some DeMark Indicat
 
 ![alt text](https://github.com/geoquant/R/blob/master/bar_charts/Screen%20Shot%202015-02-27%20at%207.27.21%20PM.png "A DeMark Chart")
 
-This is a CQG bar chart
-![alt text](https://github.com/geoquant/R/blob/master/bar_charts/cqg_example.png)
-
-https://github.com/geoquant/R/blob/master/bar_charts/cqg_example.png
+This is an alternate output that looks like an old-school Bloomberg terminal:
+![alt text](https://github.com/geoquant/R/blob/master/bar_charts/Screen%20Shot%202015-02-27%20at%207.27.11%20PM.png)
