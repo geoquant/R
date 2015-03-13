@@ -24,14 +24,7 @@ model1 <- gbm_function(x     = 5,
                        n     = 5000)
 
 
-par(mfrow=c(1, 1))
-plot(x    = seq(1, length(model1), by = 1),
-     y    = model1, 
-     type = "l",
-     lwd  = 1.5,
-     col  = "#31a354",
-     ylab = "$",
-     xlab = "# of Observations")
+
 
 
 
@@ -58,6 +51,19 @@ model_output <- gbm_f(t0 = 1,
                       mu = 0.0927, 
                       sigma = 0.30, 
                       n = 10000)
+
+
+
+
+# Plot each method --------------------------------------------------------
+par(mfrow=c(1, 2))
+plot(x    = seq(1, length(model1), by = 1),
+     y    = model1, 
+     type = "l",
+     lwd  = 1.5,
+     col  = "#31a354",
+     ylab = "$",
+     xlab = "# of Observations")
 
 plot(model_output, type = "l")
 
