@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-options(java.home="C:\\Program Files\\Java\\jre7\\")
+options(java.home = "C:\\Program Files\\Java\\jre7\\")
 
 library(Rbbg)
 library(xts)
