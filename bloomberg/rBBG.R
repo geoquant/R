@@ -1,5 +1,6 @@
 rm(list=ls(all=TRUE))
-options(java.home = "C:\\Program Files\\Java\\jre7\\")
+# http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r
+options(java.home="Desktop")
 
 library(Rbbg)
 library(xts)
@@ -25,3 +26,4 @@ for(i in seq_along(BBGList)) {
   filename <- paste(names(BBGList)[i], ".csv")
   write.csv(BBGList[[i]], filename)
 }
+

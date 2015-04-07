@@ -4,7 +4,9 @@
 ###############################################################################
 rm(list=ls())
 
+library(dtw)
 library(xts)
+library(quantmod)
 
 setwd("C:/Users/jlappen/Desktop/R/systematic_investor")
 con = gzcon(url('http://www.systematicportfolio.com/sit.gz', 'rb'))
@@ -15,8 +17,8 @@ close(con)
 # Custom Function ---------------------------------------------------------
 bt.matching.find2 <- function(
   data,
-  n.query=30,
-  n.reference=252*20,
+  n.query=90,
+  n.reference=252*30,
   n.match=10,
   normalize.fn = normalize.mean.sd,
   dist.fn = dist.euclidean,
@@ -73,7 +75,7 @@ bt.matching.find2 <- function(
     plota(data, type='l', col='gray', LeftMargin = 1,
           main=iif(!plot.dist, paste('Top Historical Matches for', main), NULL)
     )
-    plota.lines(last(data,30), col='blue')
+    plota.lines(last(data,90), col='blue')
     for(i in 1:n.match) {
       plota.lines(data[(min.index[i]-n.query + 1):min.index[i]], col='red')
     }
@@ -94,15 +96,27 @@ bt.matching.find2 <- function(
 #data <- getSymbols(tickers, src = 'yahoo', from = '1950-01-01', 
 #                   auto.assign = FALSE)
 
-data1 <- read.csv("spx_data.csv", as.is = TRUE, header = TRUE, sep = ",")
+data1 <- read.csv("oil_data.csv", as.is = TRUE, header = TRUE, sep = ",")
 data1 <- xts(data1[,2:ncol(data1)], as.Date(data1[, 1]))
+data1 <- cbind(data1, data1[,"Close"],data1[,"Close"])
+names(data1) <- c("Open", "High","Low", "Close","Volume", "Adjusted")
+data2 <- as.quantmod.OHLC(data1)
+
+
+par(mfrow=c(1, 2))
+obj <- bt.matching.find2(Cl(data2), normalize.fn = normalize.mean, 
+                         dist.fn = 'dist.euclidean', plot = TRUE)
+
+obj <- bt.matching.find2(Cl(data2), normalize.fn = normalize.mean, 
+                         dist.fn = 'dist.DTW', plot=TRUE)
+par(mfrow=c(1, 1))
 
 
 
 #*****************************************************************
 # Euclidean distance, one to one mapping
 #****************************************************************** 
-obj <- bt.matching.find2(data1[, "Close"], normalize.fn = normalize.mean, 
+obj <- bt.matching.find2(Cl(data2), normalize.fn = normalize.mean, 
                        dist.fn = 'dist.euclidean', plot = TRUE)
 
 matches <- bt.matching.overlay(obj, plot.index=1:90, plot=TRUE)
@@ -120,7 +134,7 @@ bt.matching.overlay.table(obj, matches, plot=TRUE, layout=TRUE)
 #****************************************************************** 
 load.packages('dtw')
 
-obj <- bt.matching.find2(data1[, "Close"], normalize.fn = normalize.mean, 
+obj <- bt.matching.find2(Cl(data2), normalize.fn = normalize.mean, 
                         dist.fn = 'dist.DTW', plot=TRUE)
 
 matches <- bt.matching.overlay(obj, plot.index=1:90, plot = TRUE)
