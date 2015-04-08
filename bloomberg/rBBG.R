@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 # http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r
-options(java.home="Desktop")
+Sys.setenv(JAVA_HOME="C:\\Program Files\\Java\\jdk1.7.0_75\\bin\\server")
 
 library(Rbbg)
 library(xts)
