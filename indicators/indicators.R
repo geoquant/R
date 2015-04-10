@@ -2,10 +2,10 @@ rm(list=ls(all=TRUE))
 library(xts)
 library(quantmod)
 
-prices <- c(128.46, 130.42, 128.79, 132.17, 133, 129.5, 128.45,
-            128.72, 127.83, 127.08, 126.46, 124.88, 122.02, 
+prices <- rev(c(128.46, 130.415, 128.79, 132.17, 133.00, 129.495, 128.45,
+            128.715, 127.83, 127.08, 126.46, 124.88, 122.02, 
             119.72, 118.93, 119.94, 119.56, 118.65, 118.63, 
-            117.16)
+            117.16))
 
 # Running Sum -------------------------------------------------------------
 running_sum <- function (x, n = 10, cumulative = FALSE) 
@@ -58,8 +58,14 @@ newSMA <- function (x, n = 10, ...)
 }
 
 
-cbind(SMA(prices, 5))
+window <- 6
 
+sma_data <- cbind(SMA(prices, window))
+sma_data
+
+# triangular moving average
+new_window <- ceiling((window + 1)/2)
+cbind(SMA(SMA(prices, new_window), new_window))
 
 
 

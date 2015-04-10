@@ -1,16 +1,15 @@
 rm(list=ls(all=TRUE))
-# http://stackoverflow.com/questions/7019912/using-the-rjava-package-on-win7-64-bit-with-r
-Sys.setenv(JAVA_HOME="C:\\Program Files\\Java\\jdk1.7.0_75\\bin\\server")
+Sys.setenv(JAVA_HOME="C:\\Program Files\\Java\\jre7")
 
 library(Rbbg)
 library(xts)
 
-conn <- blpConnect(throw.ticker.errors = FALSE,log.level = "finest")    							
+conn <- blpConnect(throw.ticker.errors = FALSE, log.level = "finest")    							
 
-symbols <- c("SPX Index", "CCMP Index", "US1 Comdty", "CL1 Comdty")
-fields     <- c("PX_LAST", "PX_OPEN", "PX_HIGH", "PX_LOW", "VOLUME") 
-startdate  <- as.Date("1988-01-01") 
-enddate    <- as.Date("2015-02-23") 
+symbols    <- c("SPX Index", "CCMP Index", "US1 Comdty", "CL1 Comdty")
+fields     <- c("PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "VOLUME") 
+start_date <- as.Date("1988-01-01") 
+end_date   <- as.Date("2015-02-23") 
 
 bbg2xts <- function(symbols, ...) { 
   bbg <- bdh(conn, symbols, ...) 
@@ -18,12 +17,15 @@ bbg2xts <- function(symbols, ...) {
   as.xts(bbg, order.by = as.Date(rownames(bbg))) 
 } 
 
-BBGList <- lapply(symbols, bbg2xts, fields, startdate, enddate) 
-names(BBGList) <- symbols 
+BBG_list <- lapply(symbols, bbg2xts, fields, start_date, end_date) 
+names(BBG_list) <- symbols 
+
+BBGdf <- lapply(BBG_list, "[", "PX_LAST")
+
 
 # export ------------------------------------------------------------------
-for(i in seq_along(BBGList)) {
-  filename <- paste(names(BBGList)[i], ".csv")
-  write.csv(BBGList[[i]], filename)
-}
+#for(i in seq_along(BBG_list)) {
+#  filename <- paste(names(BBG_list)[i], ".csv")
+#  write.csv(BBG_list[[i]], filename)
+#}
 
