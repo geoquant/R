@@ -6,10 +6,10 @@ library(xts)
 
 conn <- blpConnect(throw.ticker.errors = FALSE, log.level = "finest")    							
 
-symbols    <- c("SPX Index", "CCMP Index", "US1 Comdty", "CL1 Comdty")
-fields     <- c("PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST", "VOLUME") 
+symbols    <- c("SPX Index", "USGG10YR Index", "USDJPY Curncy", "USDEUR Curncy")
+fields     <- c("PX_OPEN", "PX_HIGH", "PX_LOW", "PX_LAST") 
 start_date <- as.Date("1988-01-01") 
-end_date   <- as.Date("2015-02-23") 
+end_date   <- as.Date("2015-05-11") 
 
 bbg2xts <- function(symbols, ...) { 
   bbg <- bdh(conn, symbols, ...) 
