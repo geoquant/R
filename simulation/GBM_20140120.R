@@ -1,6 +1,5 @@
 rm(list = ls(all = TRUE))
 
-
 # Functional Method -------------------------------------------------------
 gbm_function <- function(x, omega, mu, sigma, n) {
   # Geometric Brownian Motion:
@@ -22,10 +21,6 @@ model1 <- gbm_function(x     = 5,
                        mu    = 0.09, 
                        sigma = 0.3, 
                        n     = 5000)
-
-
-
-
 
 
 # Iterative Method --------------------------------------------------------
@@ -53,8 +48,6 @@ model_output <- gbm_f(t0 = 1,
                       n = 10000)
 
 
-
-
 # Plot each method --------------------------------------------------------
 par(mfrow=c(1, 2))
 plot(x    = seq(1, length(model1), by = 1),
@@ -66,4 +59,3 @@ plot(x    = seq(1, length(model1), by = 1),
      xlab = "# of Observations")
 
 plot(model_output, type = "l")
-
